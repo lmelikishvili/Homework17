@@ -17,7 +17,7 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(FragmentWelcomeBind
     override fun setup() {
         setFragmentResultListener("loginEmail") { _, bundle ->
             loginEmailResult = bundle.getString("loginEmailKey").toString()
-            binding.edWelcomeMessage.setText(loginEmailResult)
+            binding.edWelcomeMessage.text = "Welcome: ${loginEmailResult}"
         }
     }
 
