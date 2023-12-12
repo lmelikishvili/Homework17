@@ -1,7 +1,9 @@
 package com.example.homework17.login
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.util.Log.d
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,15 +27,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private var isValid: Boolean = false
     override fun setup() {
 
-        setFragmentResultListener("email") { _, bundle ->
-            email = bundle.getString("emailKey").toString()
-            binding.etEmail.setText(email)
-        }
-        setFragmentResultListener("pass") { _, bundle ->
-            pass = bundle.getString("passKey").toString()
-            binding.etPassword.setText(email)
-        }
+//        if(context?.let { getSavedCredentials(it) } != null){
+//            findNavController().navigate(R.id.action_loginFragment_to_welcomeFragment)
+//
+//        }
 
+        if (context?.let { viewModel.isRememberMeEnabled(it) } == true){
+            viewModel.getSavedCredentials(requireContext())
+        }else{
+            setFragmentResultListener("email") { _, bundle ->
+                email = bundle.getString("emailKey").toString()
+                binding.etEmail.setText(email)
+            }
+            setFragmentResultListener("pass") { _, bundle ->
+                pass = bundle.getString("passKey").toString()
+                binding.etPassword.setText(email)
+            }
+        }
     }
 
     override fun setupListeners() {
@@ -42,9 +52,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
         binding.btnLogin.setOnClickListener(){
             if (fieldCheck()){
+                email = binding.etEmail.text.toString()
+                pass = binding.etPassword.text.toString()
+
+                if (binding.etEmail.isActivated){
+                    context?.let { viewModel.saveCredentials(email, pass, binding.cbRemember.isChecked, it) }
+                }
                 context?.let { it1 -> viewModel.signin(it1, email, pass) }
                 setFragmentResult("loginEmail", bundleOf("loginEmailKey" to email))
                 findNavController().navigate(R.id.action_loginFragment_to_welcomeFragment)
+                d("checkSharedCreds", "${ context?.let { it1 -> viewModel.getSavedCredentials(it1) }}")
             }
         }
     }
@@ -65,5 +82,4 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
         return isValid
     }
-
 }

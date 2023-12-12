@@ -62,4 +62,44 @@ class OperationViewModel:ViewModel()
             }
         })
     }
+
+    fun saveCredentials(username: String, password: String, rememberMe: Boolean, context: Context) {
+        val sharedPreferences = context.getSharedPreferences("loginPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        editor.putString("username", username)
+        editor.putString("password", password)
+        editor.putBoolean("rememberMe", rememberMe)
+
+        editor.apply()
+    }
+
+    fun isRememberMeEnabled(context: Context): Boolean {
+        val sharedPreferences = context.getSharedPreferences("loginPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("rememberMe", false)
+    }
+
+    fun getSavedCredentials(context: Context): Pair<String, String>? {
+        val sharedPreferences = context.getSharedPreferences("loginPreferences", Context.MODE_PRIVATE)
+
+        val email = sharedPreferences.getString("username", null).toString()
+        val pass = sharedPreferences.getString("password", null).toString()
+
+        if (email != null && pass != null) {
+            return Pair(email, pass)
+        }
+
+        return null
+    }
+
+    fun clearSavedCredentials(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("loginPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        editor.remove("username")
+        editor.remove("password")
+        editor.remove("rememberMe")
+
+        editor.apply()
+    }
 }
