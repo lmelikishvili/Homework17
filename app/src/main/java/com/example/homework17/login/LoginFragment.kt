@@ -27,10 +27,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private var isValid: Boolean = false
     override fun setup() {
 
-//        if(context?.let { getSavedCredentials(it) } != null){
-//            findNavController().navigate(R.id.action_loginFragment_to_welcomeFragment)
-//
-//        }
+        if(context?.let { viewModel.isRememberMeEnabled(it) } == true){
+            findNavController().navigate(R.id.action_loginFragment_to_welcomeFragment)
+            d("getCreds", "${viewModel.getSavedCredentials(requireContext())}")
+
+        }
 
         if (context?.let { viewModel.isRememberMeEnabled(it) } == true){
             viewModel.getSavedCredentials(requireContext())
@@ -41,7 +42,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             }
             setFragmentResultListener("pass") { _, bundle ->
                 pass = bundle.getString("passKey").toString()
-                binding.etPassword.setText(email)
+                binding.etPassword.setText(pass)
             }
         }
     }
@@ -55,13 +56,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 email = binding.etEmail.text.toString()
                 pass = binding.etPassword.text.toString()
 
-                if (binding.etEmail.isActivated){
+                if (binding.cbRemember.isChecked){
                     context?.let { viewModel.saveCredentials(email, pass, binding.cbRemember.isChecked, it) }
                 }
                 context?.let { it1 -> viewModel.signin(it1, email, pass) }
                 setFragmentResult("loginEmail", bundleOf("loginEmailKey" to email))
                 findNavController().navigate(R.id.action_loginFragment_to_welcomeFragment)
                 d("checkSharedCreds", "${ context?.let { it1 -> viewModel.getSavedCredentials(it1) }}")
+                d("isRememberMeCheck", "${context?.let { it1 -> viewModel.isRememberMeEnabled(it1) }}")
+
             }
         }
     }

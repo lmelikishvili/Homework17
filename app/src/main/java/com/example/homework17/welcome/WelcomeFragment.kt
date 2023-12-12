@@ -1,5 +1,6 @@
 package com.example.homework17.welcome
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log.d
 import androidx.fragment.app.Fragment
@@ -28,8 +29,12 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(FragmentWelcomeBind
 
     override fun setupListeners() {
         binding.btnLogout.setOnClickListener(){
-            context?.let { it1 -> viewModel.clearSavedCredentials(it1) }
-            findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
+
+            context?.let { it1 -> viewModel.isRememberMeEnabled(it1) }
+
+
+//            context?.let { it1 -> viewModel.clearSavedCredentials(it1) }
+//            findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
         }
     }
 
