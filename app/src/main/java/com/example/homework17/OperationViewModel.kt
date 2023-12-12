@@ -52,10 +52,8 @@ class OperationViewModel:ViewModel()
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.code() == 200) {
-                    Toast.makeText(context, "${response.body().toString()}", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "Register Success!", Toast.LENGTH_SHORT)
                         .show()
-
-                    d("registeredUser", "${response.body().toString()}")
                 }
                 else{
                     Toast.makeText(context, "Registration failed!", Toast.LENGTH_SHORT)
