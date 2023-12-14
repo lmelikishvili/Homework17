@@ -34,7 +34,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
                 }else{
                     goToWelcome()
                 }
-                setFragmentResult("loginEmail", bundleOf("loginEmailKey" to email))
+                setFragmentResult("loginEmail", bundleOf("loginEmailKey" to it))
                 d("getUser", "${email}")
             }
         }
