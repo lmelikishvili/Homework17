@@ -1,6 +1,8 @@
 package com.example.homework17
 
 import android.util.Log.d
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -27,11 +29,12 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
     private fun getUserData(){
         userManager.userEmaiFlow.asLiveData().observe(this){email->
             email?.let {
-                if (email.isNullOrEmpty()){
+                if (it.isNullOrEmpty()){
                     goToLogin()
                 }else{
                     goToWelcome()
                 }
+                setFragmentResult("loginEmail", bundleOf("loginEmailKey" to email))
                 d("getUser", "${email}")
             }
         }
@@ -48,6 +51,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
         lifecycleScope.launch {
             delay(1000)
             findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
+
         }
     }
 
