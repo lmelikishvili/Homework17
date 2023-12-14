@@ -42,14 +42,14 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
 
     private fun goToLogin(){
         lifecycleScope.launch {
-            delay(4000)
+            delay(1000)
             findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
         }
     }
 
     private fun goToWelcome(){
         lifecycleScope.launch {
-            delay(4000)
+            delay(1000)
             findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
 
         }

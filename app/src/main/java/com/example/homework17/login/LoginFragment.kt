@@ -30,6 +30,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             pass = bundle.getString("passKey").toString()
             binding.etPassword.setText(pass)
         }
+
+        clearCredentials()
     }
 
     override fun setupListeners() {
@@ -66,6 +68,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         lifecycleScope.launch {
             userManager.saveUserMail(email)
             Toast.makeText(context, "User Email Saved", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun clearCredentials() {
+        lifecycleScope.launch {
+            context?.let { userManager.clearDataStore(it) }
         }
     }
 
