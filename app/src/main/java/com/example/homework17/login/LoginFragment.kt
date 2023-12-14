@@ -1,9 +1,9 @@
 package com.example.homework17.login
 
-import android.util.Log.d
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,6 +22,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private var isValid: Boolean = false
     override fun setup() {
         userManager = context?.let { UserManager(it.applicationContext) }!!
+        setFragmentResultListener("email") { _, bundle ->
+            email = bundle.getString("emailKey").toString()
+            binding.etEmail.setText(email)
+        }
+        setFragmentResultListener("pass") { _, bundle ->
+            pass = bundle.getString("passKey").toString()
+            binding.etPassword.setText(pass)
+        }
     }
 
     override fun setupListeners() {
@@ -52,7 +60,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     }
 
-
     private fun storeCredentials() {
         val email = binding.etEmail.text.toString()
 
@@ -60,7 +67,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             userManager.saveUserMail(email)
             Toast.makeText(context, "User Email Saved", Toast.LENGTH_LONG).show()
         }
-
     }
 
     private fun fieldCheck(): Boolean {
