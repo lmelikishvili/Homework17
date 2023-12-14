@@ -33,12 +33,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -48,6 +51,18 @@ dependencies {
 
     //Retrofit with moshi
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    implementation("androidx.datastore:datastore:1.0.0")
+
+    // optional - RxJava2 support
+    implementation("androidx.datastore:datastore-rxjava2:1.0.0")
+
+    // optional - RxJava3 support
+    implementation("androidx.datastore:datastore-rxjava3:1.0.0")
+
+    implementation("androidx.datastore:datastore:1.0.0-beta01")
+
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
 
     implementation("com.squareup.retrofit2:converter-gson:2.4.0")
@@ -65,6 +80,7 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment:2.7.5")
+    implementation("androidx.datastore:datastore-core:1.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

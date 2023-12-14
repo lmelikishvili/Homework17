@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log.d
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import com.example.homework17.login.SignInBody
 import com.example.homework17.network.ApiInterface
 import com.example.homework17.network.RetrofitInstance
@@ -16,10 +17,12 @@ import retrofit2.Response
 class OperationViewModel:ViewModel()
 
 {
-    fun signin(context: Context, email: String, password: String){
+    fun signin(context: Context, email: String, password: String): Boolean{
+        var isOnline = true
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         val signInInfo = SignInBody(email, password)
         retIn.signin(signInInfo).enqueue(object : Callback<ResponseBody> {
+
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Toast.makeText(
                     context,
@@ -34,10 +37,13 @@ class OperationViewModel:ViewModel()
                     Toast.makeText(context, "Login failed!", Toast.LENGTH_SHORT).show()
                 }
             }
+
         })
+        return isOnline
     }
 
-    fun signup(context: Context, email: String, password: String){
+    fun signup(context: Context, email: String, password: String): Boolean{
+        var isOnline = true
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         val registerInfo = UserBody(email,password)
 
@@ -49,6 +55,7 @@ class OperationViewModel:ViewModel()
                     t.message,
                     Toast.LENGTH_SHORT
                 ).show()
+
             }
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.code() == 200) {
@@ -59,8 +66,10 @@ class OperationViewModel:ViewModel()
                     Toast.makeText(context, "Registration failed!", Toast.LENGTH_SHORT)
                         .show()
                 }
+
             }
         })
+        return isOnline
     }
 
     fun saveCredentials(username: String, password: String, rememberMe: Boolean, context: Context) {
