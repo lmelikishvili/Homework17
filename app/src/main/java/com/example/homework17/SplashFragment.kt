@@ -14,7 +14,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
     override fun setup() {
         userManager = context?.let { UserManager(it.applicationContext) }!!
         getUserData()
-
     }
 
     override fun setupListeners() {
@@ -51,4 +50,5 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
             findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
         }
     }
+
 }

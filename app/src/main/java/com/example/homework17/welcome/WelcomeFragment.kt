@@ -1,11 +1,8 @@
 package com.example.homework17.welcome
 
-import android.util.Log.d
-import android.widget.Toast
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.homework17.BaseFragment
 import com.example.homework17.OperationViewModel
@@ -24,12 +21,11 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(FragmentWelcomeBind
         setFragmentResultListener("loginEmail") { _, bundle ->
             loginEmailResult = bundle.getString("loginEmailKey").toString()
             binding.edWelcomeMessage.text = "Welcome: ${loginEmailResult}"
-            d("checkCredenstians", "${context?.let { viewModel.getSavedCredentials(it) }}")
-
         }
     }
+
     override fun setupListeners() {
-        binding.btnLogout.setOnClickListener(){
+        binding.btnLogout.setOnClickListener() {
             findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
             clearCredentials()
         }
